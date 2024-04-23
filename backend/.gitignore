@@ -26,3 +26,19 @@ logs/
 # Ignore operating system generated files
 .DS_Store
 Thumbs.db
+
+
+
+
+
+# credentials and required variables
+
+PORT=8080
+url=mongodb+srv://kaalidash208:dZynwj4ofsAZzKw8@cluster0.kjpdbe7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+Cloudinary_api_key=741581989754927
+Cloudinary_Name=dfzg6gkoh
+Cloudinary_api_secret=L-sHvL9R5__8OP-IdjX6fsSRGF8
+RefreshTokenSecret=sukraj@123
+cloud_name=dfzg6gkoh
+api_key=741581989754927
+api_secret=L-sHvL9R5__8OP-IdjX6fsSRGF8

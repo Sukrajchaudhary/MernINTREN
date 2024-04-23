@@ -49,10 +49,10 @@ function App() {
           <Route path="/signup" element={<SignuPages />} />
           <Route path="/blog/view/:id" element={<ViewBlog />} />
           <Route path="/login" element={<LoginPages />} />
-          <Route path="/admin/home" element={<AdminHome />} />
-          <Route path="/admin/blog/add" element={<AdminAddBlog />} />
-          <Route path="/admin/blog" element={<AdminBlog />} />
-          <Route path="/admin/blog/edit/:id" element={<EditBlogPages />} />
+          <Route path="/admin/home" element={isAuth?<AdminHome />:<Main></Main>} />
+          <Route path="/admin/blog/add" element={isAuth?<AdminAddBlog />:<Main></Main>} />
+          <Route path="/admin/blog" element={isAuth?<AdminBlog />:<Main></Main>} />
+          <Route path="/admin/blog/edit/:id" element={isAuth?<EditBlogPages />:<Main></Main>} />
         </Routes>
       </Router>
       <Toaster />
