@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const productSchema = new Schema({
+
+const blogSchema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: Schema.Types.ObjectId,
+    ref: 'Users'
   },
   title: {
     type: String,
@@ -13,16 +14,12 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-
-  rating: {
-    type: Number,
-    default: 1,
+  category: {
+    type: String,
   },
-
   thumbnail: {
     type: String,
     required: true,
   },
-});
-
-exports.Blog = mongoose.model("Blog", productSchema);
+},{timestamps:true});
+exports.Blog = mongoose.model("Blog", blogSchema);

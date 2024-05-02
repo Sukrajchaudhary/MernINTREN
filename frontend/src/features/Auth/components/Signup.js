@@ -86,7 +86,7 @@ const Signup = () => {
 
   if (RegisterUser && RegisterUser?.message) {
     toast.success("Signup SuccessFylly!");
-    navigate("/login");
+    navigate("/login", { replace: true });
   }
 
   return (
@@ -184,8 +184,6 @@ const Signup = () => {
                       <p className="text-red-600">{error.password}</p>
                     )}
                   </div>
-
-                  
                 </div>
                 {/* Confirm Password */}
                 <div>

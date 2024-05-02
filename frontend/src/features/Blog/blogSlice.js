@@ -5,7 +5,7 @@ import {
   getBlogByid,
   deleteBlog,
   getOwnBlog,
-  updateBlog
+  updateBlog,
 } from "./blogAPI";
 
 const initialState = {
@@ -15,8 +15,7 @@ const initialState = {
   error: null,
   isLoading: false,
   isdelete: false,
-  AllBlogs: [],
-  isUpdate:false
+  isUpdate: false,
 };
 
 export const CreateBlogAsync = createAsyncThunk(
@@ -33,9 +32,9 @@ export const CreateBlogAsync = createAsyncThunk(
 );
 export const getAllBlogsAsync = createAsyncThunk(
   "blog/getAllBlogs",
-  async (_, { rejectWithValue }) => {
+  async ({ filter,pagination }, { rejectWithValue }) => {
     try {
-      const response = await getAllBlogs();
+      const response = await getAllBlogs(filter,pagination);
 
       return response.data;
     } catch (error) {
@@ -76,8 +75,8 @@ export const deleteBlogAsync = createAsyncThunk(
 );
 export const updateBlogAsync = createAsyncThunk(
   "blog/updateBlog",
-  async ({id,formData}, { rejectWithValue }) => {
-    const response = await updateBlog(id,formData);
+  async ({ id, formData }, { rejectWithValue }) => {
+    const response = await updateBlog(id, formData);
     return response.data;
   }
 );
@@ -111,7 +110,7 @@ export const blogSlice = createSlice({
       })
       .addCase(getAllBlogsAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.AllBlogs = action.payload;
+        state.Blog = action.payload;
         state.isLoading = false;
       })
       .addCase(getAllBlogsAsync.rejected, (state, action) => {
@@ -169,7 +168,7 @@ export const blogSlice = createSlice({
         state.error = action.payload;
         state.isLoading = false;
       })
-      // 
+      //
       .addCase(updateBlogAsync.pending, (state) => {
         state.status = "loading";
         state.isLoading = true;
@@ -179,8 +178,8 @@ export const blogSlice = createSlice({
         const index = state.Blog.findIndex(
           (blog) => blog._id === action.payload.id
         );
-        state.Blog[index]=action.payload;
-        state.isUpdate=true
+        state.Blog[index] = action.payload;
+        state.isUpdate = true;
         state.isLoading = false;
       })
       .addCase(updateBlogAsync.rejected, (state, action) => {
@@ -198,7 +197,7 @@ export const {} = blogSlice.actions;
 export const BlogInfo = (state) => state.blog.Blog;
 export const errorMessage = (state) => state.blog.error;
 export const LoadingStatus = (state) => state.blog.isLoading;
-export const AllUserBlogs = (state) => state.blog.AllBlogs;
+export const AllUserBlogs = (state) => state.blog.Blog;
 export const updateStatus = (state) => state.blog.isUpdate;
 
 export default blogSlice.reducer;

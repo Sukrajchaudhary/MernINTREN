@@ -1,8 +1,8 @@
 import React from "react";
 
-const Paginations = ({ page, handlePage, TotalProduct }) => {
-  const ITEMS_PER_PAGE = 12;
-  const totalpages = Math.ceil(TotalProduct / ITEMS_PER_PAGE);
+const Paginations = ({ page, handlePage, total }) => {
+  const ITEMS_PER_PAGE = 8;
+  const totalpages = Math.ceil(total / ITEMS_PER_PAGE);
   return (
     <>
       <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
@@ -27,11 +27,11 @@ const Paginations = ({ page, handlePage, TotalProduct }) => {
               <span className="font-medium">{(page - 1) * ITEMS_PER_PAGE}</span>{" "}
               to{" "}
               <span className="font-medium">
-                {page * ITEMS_PER_PAGE > TotalProduct
-                  ? TotalProduct
-                  : page * ITEMS_PER_PAGE > TotalProduct}
+                {page * ITEMS_PER_PAGE > total
+                  ? total
+                  : page * ITEMS_PER_PAGE > total}
               </span>{" "}
-              of <span className="font-medium">{TotalProduct}</span> results
+              of <span className="font-medium">{total}</span> results
             </p>
           </div>
           <div>

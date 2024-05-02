@@ -22,10 +22,17 @@ export function CreateBlog(formData) {
 
 //  get All user Blogs
 
-export function getAllBlogs() {
+export function getAllBlogs(filter, pagination) {
+  let queryString = "";
+  for (let key in filter) {
+    queryString += `${key}=${filter[key]}&`;
+  }
+  for (let key in pagination) {
+    queryString += `${key}=${pagination[key]}&`; 
+  }
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/getallblog`, {
+      const response = await fetch(`${host}/getallblog?` + queryString, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +53,7 @@ export function getAllBlogs() {
 
 //getblogByid
 export function getBlogByid(id) {
-  return new Promise(async (resolve,_) => {
+  return new Promise(async (resolve, _) => {
     const response = await fetch(`${host}/getblog/` + id, {
       method: "GET",
       headers: {
@@ -60,63 +67,59 @@ export function getBlogByid(id) {
   });
 }
 
-
 // deleteblog
-export function deleteBlog(id){
-  return new Promise(async(resolve,reject)=>{
-    const response=await fetch(`${host}/delete/`+id,{
-      method:"DELETE",
-      headers:{
-        'Content-Type':'application/json'
-      },
-      credentials:"include"
-    });
-    if(response.ok){
-      const data= await response.json();
-      resolve({data})
-    }
-  })
-}
-export function getOwnBlog(){
-  return new Promise(async(resolve,reject)=>{
-   try {
-    const response=await fetch(`${host}/getownBlog`,{
-      method:"GET",
-      headers:{
-        'Content-Type':'application/json'
-      },
-      credentials:"include"
-    });
-    if(response.ok){
-      const data= await response.json();
-      resolve({data})
-    }
-    else{
-      const error= await response.json();
-      reject({error})
-    }
-   } catch (error) {
-    reject(error.message)
-   }
-  })
-}
-
-// update blog
-export function updateBlog(id,formdata) {
-  
-
+export function deleteBlog(id) {
   return new Promise(async (resolve, reject) => {
-    const response = await fetch(`${host}/update/` + id, {
-      method: "PATCH",
-      body:formdata,
-      credentials: 'include'
+    const response = await fetch(`${host}/delete/` + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();
-      resolve({data});
+      resolve({ data });
+    }
+  });
+}
+export function getOwnBlog() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(`${host}/getownBlog`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        resolve({ data });
+      } else {
+        const error = await response.json();
+        reject({ error });
+      }
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+}
+
+// update blog
+export function updateBlog(id, formdata) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(`${host}/update/` + id, {
+      method: "PATCH",
+      body: formdata,
+      credentials: "include",
+    });
+    if (response.ok) {
+      const data = await response.json();
+      resolve({ data });
     } else {
       const error = await response.json();
-      reject({error});
+      reject({ error });
     }
   });
 }

@@ -44,3 +44,66 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   return (
+//     // <>
+//     //   <Navbar />
+//     //   <Routes>
+//     //     <Route path="/" element={<Main />} />
+//     //     <Route path="/signup" element={<SignuPages />} />
+//     //     <Route path="/blog/view/:id" element={<ViewBlog />} />
+//     //     <Route path="/login" element={<LoginPages />} />
+//     //     <Route
+//     //       path="/admin/home"
+//     //       element={
+//     //         <ProtectedRoute>
+//     //           <AdminHome />
+//     //         </ProtectedRoute>
+//     //       }
+//     //     />
+//     //     <Route
+//     //       path="/admin/blog/add"
+//     //       element={
+//     //         <ProtectedRoute>
+//     //           <AdminAddBlog />
+//     //         </ProtectedRoute>
+//     //       }
+//     //     />
+//     //     <Route
+//     //       path="/admin/blog"
+//     //       element={
+//     //         <ProtectedRoute>
+//     //           <AdminBlog />
+//     //         </ProtectedRoute>
+//     //       }
+//     //     />
+//     //     <Route
+//     //       path="/admin/blog/edit/:id"
+//     //       element={
+//     //         <ProtectedRoute>
+//     //           <EditBlogPages />
+//     //         </ProtectedRoute>
+//     //       }
+//     //     />
+//     //   </Routes>
+//     //   <Toaster />
+//     // </>
+//   );
+// }

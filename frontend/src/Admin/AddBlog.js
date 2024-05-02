@@ -21,6 +21,7 @@ const AddBlog = () => {
     title: "",
     description: "",
     thumbnail: "",
+    category:""
   });
   const handleChange = (e) => {
     if (e.target.type === "file") {
@@ -46,12 +47,6 @@ const AddBlog = () => {
   if (isLoading) {
     return <Loading></Loading>;
   }
-
-  // useEffect(() => {
-  //   if (createdBlog&&createdBlog?.message) {
-  //     toast.success("Blog Created SuccessFully");
-  //   }
-  // }, [dispatch, createdBlog]);
   return (
     <section className="rounded-md">
       <div className="flex items-center justify-center bg-white px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
@@ -83,6 +78,25 @@ const AddBlog = () => {
               </div>
               <div>
                 <label
+                  htmlFor="category"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Enter Category{" "}
+                </label>
+                <div className="mt-2">
+                  <input
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    type="text"
+                    placeholder="Category"
+                    id="category"
+                    name="category"
+                    onChange={handleChange}
+                  ></input>
+                </div>
+              </div>
+              <div>
+                <label
                   htmlFor="email"
                   className="text-base font-medium text-gray-900"
                 >
@@ -90,14 +104,15 @@ const AddBlog = () => {
                   Enter Description{" "}
                 </label>
                 <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="text"
-                    placeholder="description"
+                  <textarea
+                    className="flex  w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Description"
                     id="description"
                     name="description"
                     onChange={handleChange}
-                  ></input>
+                    cols="30"
+                    rows="10"
+                  ></textarea>
                 </div>
               </div>
               <div>

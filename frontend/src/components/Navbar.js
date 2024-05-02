@@ -5,18 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useAuthContext } from "../context/AuthContext";
 import { LogOutUserAsync, logoutInfo } from "../features/Auth/authSlice";
 import toast from "react-hot-toast";
-
-const Navigations = [
-  { name: "Home", path: "" },
-  { name: "About", path: "" },
-  { name: "Gallery", path: "" },
- 
-];
+import { usePageContext } from "../context/PageContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hideProfile, setHideProfile] = useState(false);
+
   const dropdownMenuRef = useRef(null);
   const profileIconRef = useRef(null);
   const { isAuth, userInfo, setisAuth } = useAuthContext();
@@ -24,6 +19,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const LogoutStatus = useSelector(logoutInfo);
 
+  const { setCategory } = usePageContext();
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 220);
@@ -49,7 +45,7 @@ const Navbar = () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
-  
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -66,7 +62,9 @@ const Navbar = () => {
       navigate("/");
     }
   }, [LogoutStatus]);
-
+  const handleChange = (e) => {
+    setCategory(e.target.value);
+  };
   return (
     <>
       <header
@@ -83,18 +81,30 @@ const Navbar = () => {
             </div>
           </Link>
           <div>
-            <ul className="hidden md:flex text-white gap-7">
-              {Navigations.map((navigation, index) => (
-                <li
-                  className={`text-sm font-semibold font-serif cursor-pointer  pl-4 hover:border hover:rounded-sm hover:text-black  hover:bg-slate-300 ${
-                    scrolled ? "text-black" : ""
-                  }`}
-                  key={navigation.name}
-                >
-                  {navigation.name}
-                </li>
-              ))}
-            </ul>
+            {!isAuth && (
+              <ul className="hidden md:flex text-white gap-7">
+                <div dropdownMenuRef={dropdownMenuRef}>
+                  <form class="md:w-96 ">
+                    <select
+                      onChange={(e) => handleChange(e)}
+                      id="countries"
+                      class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
+                      <option value="">All</option>
+                      <option value="Web development">Web development</option>
+                      <option value="Tech">Tech</option>
+                      <option value="Programming Language">
+                        Programming Language
+                      </option>
+                      <option value="Crypto Curency">Crypto Curency</option>
+                      <option value="Graphic design">Graphic design</option>
+                      <option value="Global warming">Global warming</option>
+                      <option value="Nature">Nature</option>
+                    </select>
+                  </form>
+                </div>
+              </ul>
+            )}
             <div
               ref={dropdownMenuRef}
               className={`duration-300 fixed h-full backdrop-blur-md top-[61px] w-full bg-gray-600 flex md:hidden text-white ${
@@ -102,16 +112,26 @@ const Navbar = () => {
               }`}
             >
               <ul className="flex gap-7 flex-col w-full justify-start duration-300">
-                {Navigations.map((navigation, index) => (
-                  <li
-                    className={`text-sm font-semibold font-serif cursor-pointer pl-4 hover:border hover:rounded-sm hover:text-black  hover:bg-slate-300 ${
-                      scrolled ? "text-[#838891]" : ""
-                    }`}
-                    key={navigation.name}
-                  >
-                    {navigation.name}
-                  </li>
-                ))}
+                <div dropdownMenuRef={dropdownMenuRef}>
+                  <form class="md:w-96 ">
+                    <select
+                      onChange={(e) => handleChange(e)}
+                      id="countries"
+                      class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
+                      <option value="">All</option>
+                      <option value="Web development">Web development</option>
+                      <option value="Tech">Tech</option>
+                      <option value="Programming Language">
+                        Programming Language
+                      </option>
+                      <option value="Crypto Curency">Crypto Curency</option>
+                      <option value="Graphic design">Graphic design</option>
+                      <option value="Global warming">Global warming</option>
+                      <option value="Nature">Nature</option>
+                    </select>
+                  </form>
+                </div>
               </ul>
             </div>
           </div>
@@ -139,7 +159,7 @@ const Navbar = () => {
                     <p className="text-black w-full border border-b-2 text-md cursor-pointer duration-200 bg-green-200 hover:rounded-sm">
                       {"Hi:" + userInfo?.username}
                     </p>
-                   
+
                     <p
                       onClick={handleLogout}
                       className="text-black  text-md cursor-pointer duration-200 hover:bg-slate-700 hover:rounded-sm hover:text-white"

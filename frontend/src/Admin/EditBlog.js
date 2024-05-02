@@ -25,11 +25,12 @@ const EditBlog = () => {
   useEffect(() => {
     const selectedBlog = blog.find((blog) => blog._id === id);
     if (selectedBlog) {
-      const { title, description, thumbnail } = selectedBlog;
+      const { title, description, thumbnail ,category} = selectedBlog;
       setValue({
         title: title,
         description: description,
         thumbnail: thumbnail,
+        category:category
       });
     }
   }, [blog, id]);
@@ -88,6 +89,26 @@ const EditBlog = () => {
                     />
                   </div>
                 </div>
+                <div>
+                <label
+                  htmlFor="category"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Enter Category{" "}
+                </label>
+                <div className="mt-2">
+                  <input
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    type="text"
+                    placeholder="Category"
+                    id="category"
+                    name="category"
+                    onChange={handleChange}
+                    value={value.category}
+                  ></input>
+                </div>
+              </div>
                 <div>
                   <label
                     htmlFor="description"

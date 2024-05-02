@@ -31,33 +31,41 @@ exports.createBlog = async (req, res) => {
 // getAll user Blogs
 exports.getAllUserBlogs = async (req, res) => {
   try {
-    const blog = await Blog.find();
-    return res.status(200).json(blog);
+    const { category } = req.query;
+    let conditions = {};
+    let query = Blog.find(conditions);
+    let totalQuery = Blog.find(conditions);
+
+    if (category) {
+      query = query.find({ category: category });
+      totalQuery = totalQuery.find({ category: category });
+    }
+
+    if (req.query._page && req.query._limit) {
+      const pageSize = parseInt(req.query._limit, 10);
+      const page = parseInt(req.query._page, 10);
+      query = query.skip(pageSize * (page - 1)).limit(pageSize);
+    }
+
+    const blog = await query.exec();
+    const count = await totalQuery.countDocuments();
+    return res.status(200).json({ blog: blog, total: count });
   } catch (error) {
     return res.status(400).json(error.message);
   }
 };
+
 // get blog by Id
 exports.getBlogByid = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const blog = await Blog.aggregate([
-      { $match: { _id: new mongoose.Types.ObjectId(id) } },
-      {
-        $lookup: {
-          from: "users",
-          localField: "user",
-          foreignField: "_id",
-          as: "owner",
-        },
-      },
-    ]);
+    const blog = await Blog.findById(id).populate("user");
 
-    if (blog.length > 0) {
-      return res.status(200).json(blog[0]);
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
     }
 
-    return res.status(404).json({ message: "Not found" });
+    return res.status(200).json(blog);
   } catch (error) {
     next(error);
   }
@@ -95,7 +103,7 @@ exports.updateBlog = async (req, res) => {
       {
         title: title,
         description: description,
-        thumbnail: thumbnail.url||"",
+        thumbnail: thumbnail.url || "",
       },
       { new: true }
     );

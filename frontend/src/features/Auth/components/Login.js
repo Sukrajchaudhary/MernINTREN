@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { Link, useNavigate ,useLocation} from "react-router-dom";
+import { Link, useNavigate, useLocation,Navigate } from "react-router-dom";
 import { LoginUserAsync, LoginError, LoginUserInfo } from "../authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 const Login = () => {
-
-
   const [value, setValue] = useState({
     email: "",
     password: "",
@@ -24,17 +22,8 @@ const Login = () => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location=useLocation();
-  const from =location.state?.from?.pathname || "/"
   const LoginApiError = useSelector(LoginError);
   const LoginUserResponse = useSelector(LoginUserInfo);
-  useEffect(() => {
-    if (LoginUserResponse) {
-      if (LoginUserResponse?.user) {
-        navigate("/admin/home");
-      } 
-    }
-  }, [LoginUserResponse]);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
@@ -59,10 +48,11 @@ const Login = () => {
     }
   }, [LoginApiError]);
   return (
+   <>
+    {LoginUserResponse?.user && <Navigate to="/admin/home" replace={true}></Navigate>}
     <section className="rounded-md  bg-[#F2F4F7]">
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-10 lg:px-8">
         <div className="w-full max-w-md overflow-hidden border-2 p-6 mx-auto">
-        
           <h2 className="text-2xl font-bold leading-tight text-black">
             Login to Your account
           </h2>
@@ -137,6 +127,7 @@ const Login = () => {
         </div>
       </div>
     </section>
+   </>
   );
 };
 
