@@ -2,7 +2,7 @@ import { host } from "../../Common/Api";
 export function CreateBlog(formData) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/create-blog`, {
+      const response = await fetch(`http://localhost:8080/api/create-blog`, {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -32,7 +32,7 @@ export function getAllBlogs(filter, pagination) {
   }
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/getallblog?` + queryString, {
+      const response = await fetch(`http://localhost:8080/api/getallblog?` + queryString, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export function getAllBlogs(filter, pagination) {
 //getblogByid
 export function getBlogByid(id) {
   return new Promise(async (resolve, _) => {
-    const response = await fetch(`${host}/getblog/` + id, {
+    const response = await fetch(`http://localhost:8080/api/getblog/` + id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -70,10 +70,11 @@ export function getBlogByid(id) {
 // deleteblog
 export function deleteBlog(id) {
   return new Promise(async (resolve, reject) => {
-    const response = await fetch(`${host}/delete/` + id, {
+    const response = await fetch(`http://localhost:8080/api/delete/` + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization":`Bearer ${JSON.parse(localStorage.getItem("info"))?.accessToken}`
       },
       credentials: "include",
     });
@@ -86,12 +87,14 @@ export function deleteBlog(id) {
 export function getOwnBlog() {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/getownBlog`, {
+      const response = await fetch(`http://localhost:8080/api/getownBlog`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "Authorization":`Bearer ${JSON.parse(localStorage.getItem("info"))?.accessToken}`
         },
         credentials: "include",
+     
       });
       if (response.ok) {
         const data = await response.json();
@@ -109,8 +112,11 @@ export function getOwnBlog() {
 // update blog
 export function updateBlog(id, formdata) {
   return new Promise(async (resolve, reject) => {
-    const response = await fetch(`${host}/update/` + id, {
+    const response = await fetch(`http://localhost:8080/api/update/` + id, {
       method: "PATCH",
+      headers:{
+        "Authorization":`Bearer ${JSON.parse(localStorage.getItem("info"))?.accessToken}`
+      },
       body: formdata,
       credentials: "include",
     });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams ,useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -9,9 +9,10 @@ import {
   updateStatus,
 } from "../features/Blog/blogSlice";
 import Loading from "../Common/Loading";
+import toast from "react-hot-toast";
 const EditBlog = () => {
   const { id } = useParams();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoading = useSelector(LoadingStatus);
   const isUpdate = useSelector(updateStatus);
@@ -25,12 +26,12 @@ const EditBlog = () => {
   useEffect(() => {
     const selectedBlog = blog.find((blog) => blog._id === id);
     if (selectedBlog) {
-      const { title, description, thumbnail ,category} = selectedBlog;
+      const { title, description, thumbnail, category } = selectedBlog;
       setValue({
         title: title,
         description: description,
         thumbnail: thumbnail,
-        category:category
+        category: category,
       });
     }
   }, [blog, id]);
@@ -42,23 +43,19 @@ const EditBlog = () => {
       setValue({ ...value, [e.target.name]: e.target.value });
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     for (let key in value) {
       formData.append(key, value[key]);
     }
-
-    dispatch(updateBlogAsync({ id, formData }));
+    await dispatch(updateBlogAsync({ id, formData }));
+    navigate("/admin/blog");
+    toast.success("Edit SuccessFully !");
   };
   if (isLoading) {
     return <Loading></Loading>;
   }
- 
-  if(isUpdate){
-    navigate("/admin/blog")
-  }
-  
   return (
     <div>
       <section className="rounded-md">
@@ -90,25 +87,25 @@ const EditBlog = () => {
                   </div>
                 </div>
                 <div>
-                <label
-                  htmlFor="category"
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Enter Category{" "}
-                </label>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="text"
-                    placeholder="Category"
-                    id="category"
-                    name="category"
-                    onChange={handleChange}
-                    value={value.category}
-                  ></input>
+                  <label
+                    htmlFor="category"
+                    className="text-base font-medium text-gray-900"
+                  >
+                    {" "}
+                    Enter Category{" "}
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="text"
+                      placeholder="Category"
+                      id="category"
+                      name="category"
+                      onChange={handleChange}
+                      value={value.category}
+                    ></input>
+                  </div>
                 </div>
-              </div>
                 <div>
                   <label
                     htmlFor="description"

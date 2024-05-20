@@ -141,6 +141,7 @@ export const LoginError = (state) => state.auth.LoginErrror;
 export const LoginUserDetails = (state) => state.auth.CheckLoginUserInfo;
 export const logoutInfo = (state) => state.auth.Logout;
 export const LogoutErrorLog = (state) => state.auth.LogoutError;
+export const loadingStatus=(state)=>state.auth.isLoading;
 
 export default authSlice.reducer;
 

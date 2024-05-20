@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const { connectToDb } = require("./Db/connection");
 const app = express();
+const path=require("path");
+const __dirname=path.resolve();
 connectToDb();
 //
 const userRouter = require("./Router/users.routes");
@@ -22,7 +24,11 @@ app.use(session({ secret: "keyboard cat", cookie: { maxAge: 60000 } }));
 //
 app.use("/api", userRouter.router);
 app.use("/api", blogRouter.router);
-
+// 
+app.use(express.static(path.join(__dirname,"/frontend/build")));
+app.get("*",((req,res)=>{
+  res.sendFile(path.join(__dirname,"frontend","build","index.html"))
+}))
 
 app.listen(process.env.PORT, () => {
   console.log(`App is Running on Port:http://localhost:${process.env.PORT}`);

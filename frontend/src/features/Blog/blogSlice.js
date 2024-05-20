@@ -32,9 +32,9 @@ export const CreateBlogAsync = createAsyncThunk(
 );
 export const getAllBlogsAsync = createAsyncThunk(
   "blog/getAllBlogs",
-  async ({ filter,pagination }, { rejectWithValue }) => {
+  async ({ filter, pagination }, { rejectWithValue }) => {
     try {
-      const response = await getAllBlogs(filter,pagination);
+      const response = await getAllBlogs(filter, pagination);
 
       return response.data;
     } catch (error) {

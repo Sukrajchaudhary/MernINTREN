@@ -1,28 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Loading from "../Common/Loading";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 import {
   getOwnBlogAsync,
   BlogInfo,
   LoadingStatus,
-  errorMessage,
   deleteBlogAsync,
 } from "../features/Blog/blogSlice";
-
+import Dialougebox from "../Common/Dialougebox";
 const Blog = () => {
+  const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const blog = useSelector(BlogInfo);
   const isLoading = useSelector(LoadingStatus);
+  
   useEffect(() => {
     dispatch(getOwnBlogAsync());
   }, [dispatch]);
-  const handleDelete = (e, id) => {
-    e.preventDefault();
+  const handleDelete = ( id) => {
     dispatch(deleteBlogAsync(id));
-    toast.success("Deleted Success Fully")
+    toast.success("Deleted Success Fully");
   };
   if (isLoading) {
     return <Loading></Loading>;
@@ -56,28 +56,32 @@ const Blog = () => {
                         <Pencil color="#128b09" />
                       </span>
                     </Link>
+                    <Dialougebox
+                      title={`Delete ${blog?.title}`}
+                      ActionMessage="Are you sure ?"
+                      icon={<Trash2 color="#d31d1d" />}
+                      ActionName="Delete"
+                      dangerAction={(e) => handleDelete( blog._id)}
+                      showModal={openModal === blog._id}
+                      cancleAction={(e) => setOpenModal(-1)}
+                    />
                     <span
-                      onClick={(e) => handleDelete(e, blog._id)}
+                      onClick={(e) => setOpenModal(blog._id)}
                       className="bg-white text-black px-4 py-2 rounded-lg"
                     >
                       <Trash2 color="#128b09" />
                     </span>
                   </div>
                 </div>
-
+            
                 <div className="p-4 sm:p-6">
                   <a href="#">
                     <h3 className="text-lg font-medium text-gray-900">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      {blog?.title}
                     </h3>
                   </a>
                   <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Recusandae dolores, possimus pariatur animi temporibus
-                    nesciunt praesentium dolore sed nulla ipsum eveniet corporis
-                    quidem, mollitia itaque minus soluta, voluptates neque
-                    explicabo tempora nisi culpa eius atque dignissimos.
-                    Molestias explicabo corporis voluptatem?
+                    {blog?.description?.substring(0, 100) + "..."}
                   </p>
                   <a
                     href="#"

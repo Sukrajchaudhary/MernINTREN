@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AlignJustify, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Link,useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useAuthContext } from "../context/AuthContext";
-import { LogOutUserAsync, logoutInfo } from "../features/Auth/authSlice";
+import { LogOutUserAsync,} from "../features/Auth/authSlice";
 import toast from "react-hot-toast";
 import { usePageContext } from "../context/PageContext";
 
@@ -14,11 +14,9 @@ const Navbar = () => {
 
   const dropdownMenuRef = useRef(null);
   const profileIconRef = useRef(null);
-  const { isAuth, userInfo, setisAuth } = useAuthContext();
+  const { usertoken, setUsertoken } = useAuthContext();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const LogoutStatus = useSelector(logoutInfo);
-
+  const navigate=useNavigate();
   const { setCategory } = usePageContext();
   useEffect(() => {
     const handleScroll = () => {
@@ -50,18 +48,15 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
-    dispatch(LogOutUserAsync());
+    await dispatch(LogOutUserAsync());
+    setUsertoken(null);
+    localStorage.removeItem("info");
+    toast.success("Logut SuccessFully !");
+    navigate("/",{replace:true})
   };
 
-  useEffect(() => {
-    if (LogoutStatus) {
-      toast.success(LogoutStatus.message);
-      setisAuth(false);
-      navigate("/");
-    }
-  }, [LogoutStatus]);
   const handleChange = (e) => {
     setCategory(e.target.value);
   };
@@ -81,7 +76,7 @@ const Navbar = () => {
             </div>
           </Link>
           <div>
-            {!isAuth && (
+            {!usertoken && (
               <ul className="hidden md:flex text-white gap-7">
                 <div dropdownMenuRef={dropdownMenuRef}>
                   <form class="md:w-96 ">
@@ -138,7 +133,7 @@ const Navbar = () => {
 
           <div className="flex gap-7">
             <div className="cursor-pointer relative flex justify-center items-center"></div>
-            {isAuth ? (
+            {usertoken ? (
               <div className="isolate flex -space-x-2 relative">
                 <div
                   ref={profileIconRef}
@@ -146,7 +141,7 @@ const Navbar = () => {
                   className="relative"
                 >
                   <span className="border flex justify-center items-center relative z-0  h-10 w-10 rounded-full ring-2 text-blue-600 cursor-pointer  font-bold text-lg">
-                    {userInfo?.username.charAt(0).toUpperCase()}
+                    {usertoken?.user?.username.charAt(0).toUpperCase() ?usertoken?.user?.username.charAt(0).toUpperCase():usertoken?.username.charAt(0).toUpperCase()}
                   </span>
                 </div>
 
@@ -157,7 +152,7 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col justify-start p-2 gap-3">
                     <p className="text-black w-full border border-b-2 text-md cursor-pointer duration-200 bg-green-200 hover:rounded-sm">
-                      {"Hi:" + userInfo?.username}
+                  Hi:{" "}  {usertoken?.user?.username ?usertoken?.user?.username:usertoken?.username}
                     </p>
 
                     <p

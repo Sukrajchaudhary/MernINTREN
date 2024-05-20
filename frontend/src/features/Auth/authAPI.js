@@ -3,7 +3,7 @@ import { host } from "../../Common/Api";
 export function createUsers(data) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/register`, {
+      const response = await fetch(`http://localhost:8080/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export function createUsers(data) {
 export function LoginUser(data) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/Login`, {
+      const response = await fetch(`http://localhost:8080/api/Login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export function LoginUser(data) {
 
 export function checkuser() {
   return new Promise(async (resolve, _) => {
-    const response = await fetch(`${host}/checkuser`, {
+    const response = await fetch(`http://localhost:8080/api/checkuser`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export function checkuser() {
 export function LogOutUser() {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/logout`, {
+      const response = await fetch(`http://localhost:8080/api/logout`, {
         method: "POST",
         headers: {
           "Content-Typs": "application/json",
@@ -95,7 +95,7 @@ export function LogOutUser() {
 export function UpdateAddress(data) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${host}/updateAddress`, {
+      const response = await fetch(`http://localhost:8080/api/updateAddress`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

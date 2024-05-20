@@ -11,7 +11,6 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar";
 import ViewBlog from "./pages/ViewBlogPages";
 import LoginPages from "./pages/LoginPages";
-import { useAuthContext } from "./context/AuthContext";
 import Main from "./components/Main";
 import AdminHome from "../src/Admin/AdminHome";
 import AdminAddBlog from "./pages/AdminAddBlog";
@@ -20,21 +19,12 @@ import EditBlogPages from "./pages/EditBlogPages";
 import ProtectedRoute from "./features/Auth/components/ProtectedRoute";
 function App() {
   const dispatch = useDispatch();
-  const { setisAuth, setuserInfo } = useAuthContext();
-  const LoginUser = useSelector(LoginUserDetails);
+
   const LoginUserResponse = useSelector(LoginUserInfo);
 
   useEffect(() => {
     dispatch(checkuserAsync());
   }, [dispatch, LoginUserResponse]);
-
-  useEffect(() => {
-    if (LoginUser) {
-      setisAuth(true);
-      setuserInfo(LoginUser);
-    }
-  }, [dispatch, LoginUser]);
-
   return (
     <>
       <Navbar />

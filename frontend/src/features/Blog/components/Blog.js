@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBlogsAsync, AllUserBlogs } from "../blogSlice";
+import { getAllBlogsAsync, AllUserBlogs, LoadingStatus } from "../blogSlice";
 import Footer from "../../../components/Footer";
 import Paginations from "../../../Common/Paginations";
 import { usePageContext } from "../../../context/PageContext";
-
+import Loading from "../../../Common/Loading";
+import { useAuthContext } from "../../../context/AuthContext";
 const Blog = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const blog = useSelector(AllUserBlogs);
+  const isLoading = useSelector(LoadingStatus);
   const totalBlog = blog?.total;
   const { category } = usePageContext();
+  const {usertoken}=useAuthContext();
   useEffect(() => {
     const filter = { category: category ? category : "" };
     const pagination = { _page: page, _limit: 8 };
@@ -21,7 +24,9 @@ const Blog = () => {
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
-
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
   return (
     <>
       <div className="flex flex-wrap p-4">

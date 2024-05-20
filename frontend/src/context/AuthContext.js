@@ -5,10 +5,10 @@ export const useAuthContext = () => {
 };
 
 export const AuthContextProvider = ({ children }) => {
-  const [isAuth, setisAuth] = useState(false);
-  const [userInfo,setuserInfo]=useState({})
+  const [usertoken,setUsertoken]=useState(JSON.parse(localStorage.getItem("info"))||null);
+  
   return (
-    <authContext.Provider value={{ isAuth, setisAuth,userInfo,setuserInfo }}>
+    <authContext.Provider value={{usertoken,setUsertoken }}>
       {children}
     </authContext.Provider>
   );
